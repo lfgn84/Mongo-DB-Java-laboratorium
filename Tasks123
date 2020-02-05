@@ -1,0 +1,551 @@
+Namn : Luis Fidel Gutierrez
+
+
+
+Instruktion  G-uppgiften 
+Task 1.
+Skriv alla ​satser och resultat​ från MongoDb som du använder i följande frågor i en txt fil:  
+1.​ Skapa en databas vid namn citydb. 
+
+ use citydb
+switched to db citydb
+ 
+2.​ Sätt in följande dokument i en kollektion med namn: cities  a.​ _id:1, name: Stockholm, population: 1372565  b.​ _id:2, name: Göteborg, population: 549839  c.​ _id:3, name: Malmö, population: 280415  d.​ _id:4, name: Uppsala, population: 140454  e.​ _id:5, name: Västerås, population: 110877 
+
+> db.cities.save({"_id": 1})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 1 })
+> db.cities.save({"_id": 2})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 2 })
+> db.cities.save({"_id": 3})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 3 })
+> db.cities.save({"_id": 4})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 4 })
+> db.cities.save({"_id": 5})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 5 })
+
+> db.cities.updateMany({"_id": 1},{"$set":{"name":"Stockholm","population": 1372565}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.cities.updateMany({"_id":2},{"$set":{"name":"Göteborg","population":549839}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.cities.updateMany({"_id":3},{"$set":{"name":"Malmö","population":280415}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.cities.updateMany({"_id":4},{"$set":{"name":"Uppsala","population":140454}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.cities.updateMany({"_id":5}, {"$set":{"name":"Västerås", "population":110877}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+
+3.​ Hitta ett dokument där namnet är “Malmö” och visa bara “namn” och  “population”.  
+
+> db.cities.find({"name":"Malmö"},{"name":"Malmö","population":280415})
+{ "_id" : 3, "name" : "Malmö", "population" : 280415 }
+
+4.​ Uppdatera dokumentet som har “namn” “Göteborg” med “population” 549890 
+
+> db.cities.update({"name": "Göteborg"},{"$set":{"population":549890}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+5.​ Ta bort dokumentet med _id:4 
+
+> db.cities.remove({"_id":4})
+WriteResult({ "nRemoved" : 1 })
+
+ 
+6.​ Uppdatera dokumentet som har “namn” “Västerås” och öka (med increment)  ”population” fält så att det blir 110879. (increment by 2)
+
+> db.cities.update({"name":"Västerås"},{"$inc":{"population":2}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+  
+7.​ Lägg till ett fält “country” och värdet “Sweden” till alla dokument.  
+
+> db.cities.update({},{"$set":{"country":"Sweden"}},{multi:true})
+WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
+
+8.​ Byt namn på fältet “country” till “Country”.  
+
+>  db.cities.update({},{"$rename":{"country":"Country"}},{multi:true})
+WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
+
+
+
+
+Task 2.
+9.​ Skapa en databas vid namn animalsdb.
+
+> use animalsdb
+switched to db animalsdb
+  
+10.​ Gå till databasen animalsdb.  
+> > db
+animalsdb
+
+11.​ Skriv i mongo-skalet : load ("animals.js"). Vad gör den raden? Visa resultatet.
+
+> load ("/data/db/animals.js")
+true
+  
+12.​ Hitta alla data från collection animals.  
+
+> db.animals.find()
+{ "_id" : ObjectId("5e21d595e9f173c59d901018"), "name" : "Elephant", "color" : "grey", "weight" : 7000, "has_tusks" : true, "data" : [ "mammal", "herbivore", "live in groups" ], "found_in" : [ "sub-Saharan Africa", "South Asia", "Southeast Asia" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901019"), "name" : "Elk", "color" : "brown", "weight" : 395, "min_weight_male" : 320, "max_weight_male" : 475, "min_weight_female" : 275, "max_weight_female" : 375, "has_antlers" : true, "data" : [ "mammal", "deer family", "herbivore" ], "found_in" : [ "Canada", "Alaska", "New England", "Scandinavia", "Latvia", "Estonia", "Russia" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d90101a"), "name" : "Fox", "color" : "orange", "weight" : 6, "suborder" : "Caniformia", "class" : "Mammalia", "order" : "Carnivora", "family" : "Canidae", "data" : [ "mammal", "omnivore" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d90101b"), "name" : "Wolf", "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "color" : "grey", "weight" : 44, "min_weight_male" : 43, "max_weight_male" : 45, "min_weight_female" : 36, "max_weight_female" : 38.5, "found_in" : [ "Eurasia", "North America" ], "data" : [ "mammal", "carnivore", "canid", "live in groups" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d90101c"), "name" : "Bear", "color" : "brown", "weight" : 505, "found_in" : [ "North America", "South America", "Europe", "Asia" ], "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "family" : "Ursidae", "data" : [ "mammal", "carnivore", "nonretractile claws", "rounded ears", "can stand on its rear legs" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d90101d"), "name" : "Hyena", "family" : "Hyaenidae", "suborder" : "Feliformia", "order" : "Carnivora", "color" : "brown", "weight" : 47, "min_weight_male" : 40.5, "max_weight_male" : 55, "min_weight_female" : 44.5, "max_weight_female" : 63.9, "spotted" : true, "data" : [ "mammal", "carnivore", "live in groups" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d90101e"), "name" : "Orangutan", "alternative_name" : "Orangutang", "color" : "orange", "weight" : 75, "data" : [ "herbivore", "opposable thumbs", "opposable big toe", "eat fruits", "primate", "ape" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d90101f"), "name" : "Reindeer", "class" : "Mammalia", "color" : "grey", "weight" : 200, "alternative_name" : "caribou", "has_antlers" : true, "found_in" : [ "northern Europe", "Siberia", "North America" ], "data" : [ "mammal", "deer family", "herbivore", "live in groups" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901020"), "name" : "Gorilla", "color" : "black", "weight" : 155, "data" : [ "primate", "ape", "herbivore", "can stand on its rear legs", "live in groups" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901021"), "name" : "Chimpanzee", "color" : "black", "weight" : 70, "data" : [ "primate", "ape", "omnivore" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901022"), "name" : "Marten", "order" : "Carnivora", "suborder" : "Caniformia", "family" : "Mustelidae", "color" : "brown", "weight" : 1.5, "data" : [ "solitary animal" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901023"), "name" : "Mongoose", "color" : "brown", "weight" : 1.7, "family" : "Herpestidae", "suborder" : "Feliformia", "order" : "Carnivora", "data" : [ "carnivore", "eat venomous snakes" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901024"), "name" : "Meerkat", "found_in" : [ "Botswana", "Namibia", "Angola", "South Africa" ], "color" : "yellow", "family" : "Herpestidae", "suborder" : "Feliformia", "order" : "Carnivora", "weight" : 1, "data" : [ "can stand on its rear legs", "live in groups" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901025"), "name" : "Lion", "color" : "yellow", "weight" : 200, "class" : "Mammalia", "order" : "Carnivora", "family" : "Felidae", "subfamily" : "Pantherinae", "suborder" : "Feliformia", "data" : [ "live in groups", "carnivore", "smaller than tigers", "protractible claws" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901026"), "name" : "Raccoon", "color" : "gray", "weight" : 6, "suborder" : "Caniformia", "class" : "Mammalia", "order" : "Carnivora", "family" : "Procyonidae", "data" : [ "omnivore", "nocturnal", "plantigrade locomotion", "can stand on its rear legs" ] }
+{ "_id" : ObjectId("5e21d595e9f173c59d901027"), "name" : "Black panther", "class" : "Mammalia", "order" : "Carnivora", "family" : "Felidae", "subfamily" : "Pantherinae", "suborder" : "Feliformia", "color" : "black", "weight" : 60, "data" : [ "are leopards in Asia and Africa", "are black jaguars in the Americas", "big cat" ] }
+>
+
+13.​ Hitta hur många djur det finns totalt i databasen animals?  
+> db.animals.count()
+16
+
+14.​ Lägg till en array “favorit_food” med “blueberry, honey och ants” för “Bear” .  
+
+> db.animals.update({"name":"Bear"}, {"$addToSet":{"favorite_food":{"$each":["blueberry","honey","ants"]}}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+15.​ Ta bort ants och honey från arrayen “favorit_food” och “rounded ears” från  arrayen  “data” för “Bear”.  
+
+> db.animals.update({"name" : "Bear"}, {$pull:{favorite_food:{$in:["ants", "honey"]},data:"rounded ears"}},{multi:true})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+16.​ Hitta hur många gula djur det finns i kollektionen.  
+
+> db.animals.count({"color":"yellow"})
+2
+
+17.​ Hitta alla namnet på alla djur vars färg är brun och som lever i Asien och visa  deras namn, color och found_in . 
+
+> db.animals.find({"color":"brown","found_in":"Asia"},{"name":1,"found_in":1,"color":1,"_id":0})
+{ "name" : "Bear", "color" : "brown", "found_in" : [ "North America", "South America", "Europe", "Asia" ] } 
+
+18.​ Lägg till fältet “litter_size” med värdet “4-6-kits” för “Fox”.  
+
+> db.animals.update({"name":"Fox"},{"$set":{"litter size":"4-6-kits"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+19.​ Lägg till ett fält med namn “likes meat” i arrayen “data” för alla med "order":  "Carnivora"  och som är gula till färgen.  
+
+> db.animals.update({"order":"Carnivora","color":"yellow"},{"$push":{"data":"likes meat"}},{multi:true})
+WriteResult({ "nMatched" : 2, "nUpserted" : 0, "nModified" : 2 })
+
+20.​ Gruppera efter färger och visa antal djur per färg.  
+
+> db.animals.aggregate({$group: {"_id" : "$color", total : {$sum : 1}}})
+{ "_id" : "gray", "total" : 1 }
+{ "_id" : "grey", "total" : 3 }
+{ "_id" : "orange", "total" : 2 }
+{ "_id" : "brown", "total" : 5 }
+{ "_id" : "black", "total" : 3 }
+{ "_id" : "yellow", "total" : 2 }
+
+21.​ Skriv ut antalet djur som väger mer än 100. 
+
+> db.animals.count({"weight":{$gt:100}})
+6
+ 
+
+22.​ Skriv ut djur med “order” “Carnivora”, sorterat efter weight i fallande ordning.  
+
+> db.animals.find({"order":"Carnivora"},{"name":1,"_id":0,"weight":1}).sort({"weight":-1})
+{ "name" : "Bear", "weight" : 505 }
+{ "name" : "Lion", "weight" : 200 }
+{ "name" : "Black panther", "weight" : 60 }
+{ "name" : "Hyena", "weight" : 47 }
+{ "name" : "Wolf", "weight" : 44 }
+{ "name" : "Fox", "weight" : 6 }
+{ "name" : "Raccoon", "weight" : 6 }
+{ "name" : "Mongoose", "weight" : 1.7 }
+{ "name" : "Marten", "weight" : 1.5 }
+{ "name" : "Meerkat", "weight" : 1 }
+
+23.​ Hitta alla dokument som har “mammal” ​eller​ "carnivore" i deras “data” fält.
+
+> db.animals.find({$or:[{"data":"mammal"},{"data":"carnivore"}]}).pretty()
+{
+        "_id" : ObjectId("5e21d595e9f173c59d901018"),
+        "name" : "Elephant",
+        "color" : "grey",
+        "weight" : 7000,
+        "has_tusks" : true,
+        "data" : [
+                "mammal",
+                "herbivore",
+                "live in groups"
+        ],
+        "found_in" : [
+                "sub-Saharan Africa",
+                "South Asia",
+                "Southeast Asia"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d901019"),
+        "name" : "Elk",
+        "color" : "brown",
+        "weight" : 395,
+        "min_weight_male" : 320,
+        "max_weight_male" : 475,
+        "min_weight_female" : 275,
+        "max_weight_female" : 375,
+        "has_antlers" : true,
+        "data" : [
+                "mammal",
+                "deer family",
+                "herbivore"
+        ],
+        "found_in" : [
+                "Canada",
+                "Alaska",
+                "New England",
+                "Scandinavia",
+                "Latvia",
+                "Estonia",
+                "Russia"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101a"),
+        "name" : "Fox",
+        "color" : "orange",
+        "weight" : 6,
+        "suborder" : "Caniformia",
+        "class" : "Mammalia",
+        "order" : "Carnivora",
+        "family" : "Canidae",
+        "data" : [
+                "mammal",
+                "omnivore"
+        ],
+        "litter size" : "4-6-kits"
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101b"),
+        "name" : "Wolf",
+        "class" : "Mammalia",
+        "order" : "Carnivora",
+        "suborder" : "Caniformia",
+        "color" : "grey",
+        "weight" : 44,
+        "min_weight_male" : 43,
+        "max_weight_male" : 45,
+        "min_weight_female" : 36,
+        "max_weight_female" : 38.5,
+        "found_in" : [
+                "Eurasia",
+                "North America"
+        ],
+        "data" : [
+                "mammal",
+                "carnivore",
+                "canid",
+                "live in groups"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101c"),
+        "name" : "Bear",
+        "color" : "brown",
+        "weight" : 505,
+        "found_in" : [
+                "North America",
+                "South America",
+                "Europe",
+                "Asia"
+        ],
+        "class" : "Mammalia",
+        "order" : "Carnivora",
+        "suborder" : "Caniformia",
+        "family" : "Ursidae",
+        "data" : [
+                "mammal",
+                "carnivore",
+                "nonretractile claws",
+                "can stand on its rear legs"
+        ],
+        "favorite_food" : [
+                "blueberry"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101d"),
+        "name" : "Hyena",
+        "family" : "Hyaenidae",
+        "suborder" : "Feliformia",
+        "order" : "Carnivora",
+        "color" : "brown",
+        "weight" : 47,
+        "min_weight_male" : 40.5,
+        "max_weight_male" : 55,
+        "min_weight_female" : 44.5,
+        "max_weight_female" : 63.9,
+        "spotted" : true,
+        "data" : [
+                "mammal",
+                "carnivore",
+                "live in groups"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101f"),
+        "name" : "Reindeer",
+        "class" : "Mammalia",
+        "color" : "grey",
+        "weight" : 200,
+        "alternative_name" : "caribou",
+        "has_antlers" : true,
+        "found_in" : [
+                "northern Europe",
+                "Siberia",
+                "North America"
+        ],
+        "data" : [
+                "mammal",
+                "deer family",
+                "herbivore",
+                "live in groups"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d901023"),
+        "name" : "Mongoose",
+        "color" : "brown",
+        "weight" : 1.7,
+        "family" : "Herpestidae",
+        "suborder" : "Feliformia",
+        "order" : "Carnivora",
+        "data" : [
+                "carnivore",
+                "eat venomous snakes"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d901025"),
+        "name" : "Lion",
+        "color" : "yellow",
+        "weight" : 200,
+        "class" : "Mammalia",
+        "order" : "Carnivora",
+        "family" : "Felidae",
+        "subfamily" : "Pantherinae",
+        "suborder" : "Feliformia",
+        "data" : [
+                "live in groups",
+                "carnivore",
+                "smaller than tigers",
+                "protractible claws",
+                "likes meat"
+        ]
+}
+
+
+  
+24.​ Hitta alla dokument som har “mammal” ​och​ "carnivore" i deras “data” fält.  
+
+> db.animals.find({$and:[{"data":"mammal"},{"data":"carnivore"}]}).pretty()
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101b"),
+        "name" : "Wolf",
+        "class" : "Mammalia",
+        "order" : "Carnivora",
+        "suborder" : "Caniformia",
+        "color" : "grey",
+        "weight" : 44,
+        "min_weight_male" : 43,
+        "max_weight_male" : 45,
+        "min_weight_female" : 36,
+        "max_weight_female" : 38.5,
+        "found_in" : [
+                "Eurasia",
+                "North America"
+        ],
+        "data" : [
+                "mammal",
+                "carnivore",
+                "canid",
+                "live in groups"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101c"),
+        "name" : "Bear",
+        "color" : "brown",
+        "weight" : 505,
+        "found_in" : [
+                "North America",
+                "South America",
+                "Europe",
+                "Asia"
+        ],
+        "class" : "Mammalia",
+        "order" : "Carnivora",
+        "suborder" : "Caniformia",
+        "family" : "Ursidae",
+        "data" : [
+                "mammal",
+                "carnivore",
+                "nonretractile claws",
+                "can stand on its rear legs"
+        ],
+        "favorite_food" : [
+                "blueberry"
+        ]
+}
+{
+        "_id" : ObjectId("5e21d595e9f173c59d90101d"),
+        "name" : "Hyena",
+        "family" : "Hyaenidae",
+        "suborder" : "Feliformia",
+        "order" : "Carnivora",
+        "color" : "brown",
+        "weight" : 47,
+        "min_weight_male" : 40.5,
+        "max_weight_male" : 55,
+        "min_weight_female" : 44.5,
+        "max_weight_female" : 63.9,
+        "spotted" : true,
+        "data" : [
+                "mammal",
+                "carnivore",
+                "live in groups"
+        ]
+}
+
+
+
+Task 3.
+Även här ska ni skriva​ både​ satserna ​och​ vad mongo svarar (resultat).  
+
+25.​ Sätt in följande record i kollektion orders: 
+{ 
+"Id": 100,  "Name": "Eva",  "Subscriber": true,  "Payment": {  "Type": "Credit-Card",  "Total": 400, "Success": true },  "Note": "1st Complete Record" 
+},  
+{ 
+"_id": 101,  "Name": "Johan",  "Subscriber": true,  "Payment": {  "Type": "Debit-Card",  "Total": 500,  "Success": true  },  "Note":null 
+},
+{ 
+"_id": 102,  "Name": "Matilda",  "Subscriber": true,  "Payment": {  "Type": "Credit-Card",  "Total": 700,  "Success": false  } 
+},  
+{ 
+"_id": 103,  "Name": "Mikael",  "Subscriber": false,  "Payment": null,  "Note": "Payment is Null" 
+},  
+{ 
+"_id": 104,  "Name": "Rikard",  "Subscriber": false,  "Payment": {  "Type": "Debit-Card",  "Total": 300,  "Success": false  } , "Note": "Completed Payment 
+} 
+
+
+ db.orders.insertMany([{"Id": 100,  "Name": "Eva",  "Subscriber": true,  "Payment": {  "Type": "Credit-Card",  "Total": 400, "Success": true },  "Note": "1st Complete Record"},{"_id": 101,  "Name": "Johan",  "Subscriber": true,  "Payment": {  "Type": "Debit-Card",  "Total": 500,  "Success": true  },  "Note":null },{"_id": 102,  "Name": "Matilda",  "Subscriber": true,  "Payment": {  "Type": "Credit-Card",  "Total": 700,  "Success": false},{"_id": 103,  "Name": "Mikael",  "Subscriber": false,  "Payment": null,  "Note": "Payment is Null" },{"_id": 104,  "Name": "Rikard",  "Subscriber": false,  "Payment": {  "Type": "Debit-Card",  "Total": 300,  "Success": false  } , "Note": "Completed Payment }])
+
+
+
+> db.orders.insertMany([{"_id": 100,  "Name": "Eva",  "Subscriber": true,  "Payment": {  "Type": "Credit-Card",  "Total": 400, "Success": true },  "Note": "1st Complete Record"},{"_id": 101,  "Name": "Johan",  "Subscriber": true,  "Payment": {  "Type": "Debit-Card",  "Total": 500,  "Success": true  },  "Note":null},{"_id": 102,  "Name": "Matilda",  "Subscriber": true,  "Payment": {  "Type": "Credit-Card",  "Total": 700,  "Success": false  }},{"_id": 103,  "Name": "Mikael",  "Subscriber": false,  "Payment": null,  "Note": "Payment is Null"},{"_id": 104,  "Name": "Rikard",  "Subscriber": false,  "Payment": {  "Type": "Debit-Card",  "Total": 300,  "Success": false  } , "Note": "Completed Payment" }])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                100,
+                101,
+                102,
+                103,
+                104
+        ]
+}
+>
+
+26.​ Hitta alla dokument där fältet “Note” är “null” ​eller​ saknas .
+
+> db.orders.find({"Note":null})
+{ "_id" : 101, "Name" : "Johan", "Subscriber" : true, "Payment" : { "Type" : "Debit-Card", "Total" : 500, "Success" : true }, "Note" : null }
+{ "_id" : 102, "Name" : "Matilda", "Subscriber" : true, "Payment" : { "Type" : "Credit-Card", "Total" : 700, "Success" : false } }
+
+  
+27.​ Hitta alla dokument där fältet “Note” saknas. 
+
+> db.orders.find({"Note":{$exists:false}})
+{ "_id" : 102, "Name" : "Matilda", "Subscriber" : true, "Payment" : { "Type" : "Credit-Card", "Total" : 700, "Success" : false } }
+
+28.​ Hitta alla dokument som har "Type": "Credit-Card" sorterat efter “Total” i  stigande ordning.  
+
+> db.orders.find({"Payment.Type":"Credit-Card"}).sort({"Payment.Total":1})
+{ "_id" : 100, "Name" : "Eva", "Subscriber" : true, "Payment" : { "Type" : "Credit-Card", "Total" : 400, "Success" : true }, "Note" : "1st Complete Record" }
+{ "_id" : 102, "Name" : "Matilda", "Subscriber" : true, "Payment" : { "Type" : "Credit-Card", "Total" : 700, "Success" : false } }
+
+29.​ Sortera all dokument efter Total i fallande ordning och visa bara dokument 2  och 3. 
+
+> db.orders.find({$or:[{"_id":101},{"_id":102}]}).sort({"Payment.Total": -1})
+{ "_id" : 102, "Name" : "Matilda", "Subscriber" : true, "Payment" : { "Type" : "Credit-Card", "Total" : 700, "Success" : false } }
+{ "_id" : 101, "Name" : "Johan", "Subscriber" : true, "Payment" : { "Type" : "Debit-Card", "Total" : 500, "Success" : true }, "Note" : null }
+ 
+30.​ Aggregera “Success” och visa antal i fallande ordning. (Hur många “Success”  är “true” och hur många är “false”). 
+
+> db.orders.aggregate([{"$match":{$or:[{"Payment.Success":true},{"Payment.Success":false}]}},{"$group":{"_id":{"Success":"$Payment.Success"},"count":{"$sum":1}}},{$sort:{"count":-1}}])
+{ "_id" : { "Success" : true }, "count" : 2 }
+{ "_id" : { "Success" : false }, "count" : 2 }
+
+
+
+
+
+VG-uppgiften  
+
+● Skriv en java klass (ni bestämmer själva vad den ska hetta).  
+● Ni kan använda lämpliga mongodb-jar-filer.  
+● Ert program ska:  ○ Ansluta till mongodb (skapa en klient)  ○ Skapa en ny databas via klienten till exempel “lab3”  ○ Skapa en kollektion vid namn “restaurants” med följande innehåll:
+ 
+ OBS! Ni ska skapa detta i ert program med java
+
+{  "_id" : ObjectId("5c39f9b5df831369c19b6bca"),  
+"name" : "Sun Bakery Trattoria",
+"stars" : 4,
+"categories" : [  "Pizza",  "Pasta",  "Italian",  "Coffee",  "Sandwiches"  ]  },
+
+{ "_id" : ObjectId("5c39f9b5df831369c19b6bcb"),
+"name" : "Blue Bagels Grill", 
+"stars" : 3,  
+"categories" : [  "Bagels",  "Cookies",  "Sandwiches"  ] 
+},  
+
+{ "_id" : ObjectId("5c39f9b5df831369c19b6bcc"),  
+"name" : "Hot Bakery Cafe",  "stars" : 4,  
+"categories" : [  "Bakery",  "Cafe",  "Coffee",  "Dessert"  ] 
+},  
+
+{ "_id" : ObjectId("5c39f9b5df831369c19b6bcd"),  
+"name" : "XYZ Coffee Bar",
+  "stars" : 5,
+  "categories" : [  "Coffee",  "Cafe",  "Bakery",  "Chocolates"  ] 
+},  
+
+{ "_id" : ObjectId("5c39f9b5df831369c19b6bce"),
+  "name" : "456 Cookies Shop",  
+"stars" : 4, 
+ "categories" : [  "Bakery",  "Cookies",  "Cake",  "Coffee"  ] 
+} 
+
+● Skriv en metod som ​skriver ut​ (System.out.println) alla dokument i samlingen.  
+● Skriv en metod som ​skriver ut ​namnet på alla dokument som har kategorin “Cafe”  ○ OBS! Exkludera id så att bara namn visas  
+● Skriv en metod som uppdaterar genom increment “stars” för den restaurang som  har “name” “XYZ Coffee Bar” så att nya värdet på stars blir 6.  ○ OBS! Ni ska använda ​increment​ . 
+○ OBS! ​Skriv ut ​alla restauranger igen, så att jag kan se att “stars” blivit 6, för  denna restaurang när jag kör ert program. 
+ 
+● Skriv en metod som uppdaterar “name” för ​"456 Cookies Shop"​ till “123 Cookies  Heaven”  
+● OBS! ​Skriv ut ​alla restauranger igen, så att jag kan se att namnet ändrats för  denna restaurang när jag kör ert program. 
+ 
+● Skriv en metod som aggregerar en lista med alla restauranger som har 4 eller fler  “stars” ​och skriver ut​ endast “name” och “stars”  
+○ OBS! Metoderna ska skriva ut via System.out resultatet, det vill säga, när  jag kör ert program ska jag se resultatet från utskrifterna. 
+  Exempel på utskrifer från ert program  Alla dokument:  
+{   "_id" : { "$oid" : "5c3a0af0df83137e38e4b0da" },   "name" : "Sun Bakery Trattoria",  "stars" : 4,   "categories" : [  "Pizza",   "Pasta",  "Italian",   "Coffee",   "Sandwiches"  ]   },  
+{  "_id" : { "$oid" : "5c3a0af0df83137e38e4b0db" },  "name" : "Blue Bagels Grill",   "stars" : 3,   "categories" : [  "Bagels",   "Cookies",  "Sandwiches"  ]   },  
+{   "_id" : { "$oid" : "5c3a0af0df83137e38e4b0dc" },   "name" : "Hot Bakery Cafe",   "stars" : 4,   "categories" : [  "Bakery",   "Cafe",  "Coffee",   "Dessert"  ]  } ,
+{   "_id" : { "$oid" : "5c3a0af0df83137e38e4b0dd" },   "name" :   "XYZ Coffee Bar",   "stars" : 5,   "categories" : [  "Coffee",   "Cafe",   "Bakery",  "Chocolates"  ]   } ,
+ {  "_id" : { "$oid" : "5c3a0af0df83137e38e4b0de" },   "name" : "456 Cookies Shop",   "stars" : 4,   "categories" : [  "Bakery",   "Cookies",  "Cake",   "Coffee"  ]  }   
+ 
+ Alla namn på rest. med kategori Cafe:    {  "name" : "Hot Bakery Cafe"   }  {   "name" : "XYZ Coffee Bar"   }  Och så vidare för varje VG-uppgift...  Lycka till

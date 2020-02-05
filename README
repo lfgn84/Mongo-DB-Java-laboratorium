@@ -1,0 +1,35 @@
+
+
+1.Open IntelliJ IDEA and close any existing project.
+
+2.From the Welcome screen, click Import Project.
+The Select File or Directory to Import dialog opens.
+
+3. Navigate to this Maven('Luis.Gutierrez.noSQLLabb3') project and select the top-level folder. In this instance, with the project/folder named 'Luis.Gutierrez.noSQLLabb3'.
+
+4. Click OK.
+The Import Project screen opens:
+
+5. For the 'Import project from external model' value, select Maven and click Next.
+
+6. Select 'Import Maven projects automatically' and leave the other fields with default values.
+
+7. Click Next.
+Your Maven project should be selected for import.
+
+8. Click Next.
+The Please select project SDK screen opens.
+
+9. Make sure the correct JDC (11) is selected and click Next.
+
+10. Change the project name and location if you like, and click Finish.
+
+11. Create a run configuration to test your project:
+
+    1.From the Run menu, select Run.
+    2.Click Edit Configurations….
+    3.Make sure Maven is selected, and click + (Add New Configuration).
+	4.Select Maven.
+	5.Give your configuration a name.
+	6.In the Comand line: field, enter 'excec:java' .
+	7.Click OK
